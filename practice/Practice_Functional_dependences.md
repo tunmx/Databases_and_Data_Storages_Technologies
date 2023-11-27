@@ -7,7 +7,7 @@ R(A,B,D,E,G) and  F={D→G, G→ AB, D→ED, A→B}.
 ## Analysis
 
 1. **Start with DG**: The initial set: **{D,G}**;
-2. **Apply D->G**: ’G‘ is already in the set, this dependency does not change the set: **{D,G}**;
+2. **Apply D->G**: G is already in the set, this dependency does not change the set: **{D,G}**;
 3. **Apply G->AB**: Adding A and B to the set: **{D,G,A,B}**;
 4. **Apply D->ED**: Adding E to the set: **{D,G,A,B,E}**;
 5. **Apply A->B**: A and B is already in the set, this dependency does not change the set: **{D,G,A,B,E}**;
