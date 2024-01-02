@@ -6,6 +6,7 @@ from setting import get_engine
 
 Base = declarative_base()
 
+
 class User(Base):
     """User model"""
     __tablename__ = 'users'
@@ -20,6 +21,7 @@ class User(Base):
     orders = relationship('Order', back_populates='user')  # User's orders
     events = relationship('Event', back_populates='user')  # User's events
     cart = relationship('Cart', uselist=False, back_populates='user', cascade='all, delete-orphan')  # User's cart
+
 
 class Product(Base):
     """Product model"""
@@ -37,6 +39,7 @@ class Product(Base):
     events = relationship('Event', back_populates='product')  # Product's events
     cart_items = relationship('CartItem', back_populates='product')  # Products in the cart
 
+
 class Category(Base):
     """Category model"""
     __tablename__ = 'categories'
@@ -47,6 +50,7 @@ class Category(Base):
 
     # Relationship with the product table
     products = relationship('Product', back_populates='category')  # Products belonging to this category
+
 
 class Order(Base):
     """Order model"""
@@ -60,6 +64,7 @@ class Order(Base):
     # Relationships with other tables
     user = relationship('User', back_populates='orders')  # User who placed the order
     order_details = relationship('OrderDetail', back_populates='order')  # Order details
+
 
 class OrderDetail(Base):
     """Order detail model"""
@@ -75,6 +80,7 @@ class OrderDetail(Base):
     order = relationship('Order', back_populates='order_details')  # The order to which this detail belongs
     product = relationship('Product', back_populates='order_details')  # The product in this order detail
 
+
 class Event(Base):
     """Event model"""
     __tablename__ = 'events'
@@ -88,6 +94,7 @@ class Event(Base):
     user = relationship('User', back_populates='events')  # User related to this event
     product = relationship('Product', back_populates='events')  # Product related to this event
 
+
 class Cart(Base):
     """Cart model"""
     __tablename__ = 'carts'
@@ -98,6 +105,7 @@ class Cart(Base):
     user = relationship('User', back_populates='cart')  # User owning this cart
     cart_items = relationship('CartItem', back_populates='cart', cascade='all, delete-orphan')  # Items in the cart
 
+
 class CartItem(Base):
     """Cart item model"""
     __tablename__ = 'cart_items'
@@ -105,11 +113,13 @@ class CartItem(Base):
     cart_id = Column(Integer, ForeignKey('carts.id'))  # Foreign key to the cart
     product_id = Column(Integer, ForeignKey('products.id'))  # Foreign key to the product
     quantity = Column(Integer, nullable=False)  # Quantity of the product in the cart, must be non-null
-    added_time = Column(DateTime, default=func.now())  # Date and time the product was added to the cart, defaults to now
+    added_time = Column(DateTime,
+                        default=func.now())  # Date and time the product was added to the cart, defaults to now
 
     # Relationships with other tables
     cart = relationship('Cart', back_populates='cart_items')  # The cart to which this item belongs
     product = relationship('Product', back_populates='cart_items')  # The product in this cart item
+
 
 if __name__ == "__main__":
     engine = get_engine()
