@@ -5,7 +5,11 @@ username = 'root'
 password = '123456'
 host = 'localhost'
 port = '3306'
-dbname = 'CosmeticsShop2'  # any database
+dbname = 'CosmeticsShopMyISAM'  # any database
+# dbname = 'CosmeticsShop'  # any database
+
+use_mysql_engine = "MyISAM"
+# use_mysql_engine = "InnoDB"
 
 def get_engine():
     engine = create_engine(f'mysql+pymysql://{username}:{password}@{host}:{port}/{dbname}')

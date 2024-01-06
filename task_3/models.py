@@ -2,13 +2,14 @@ from sqlalchemy import create_engine, Column, Integer, String, Float, DateTime, 
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.sql import func
-from setting import get_engine
+from setting import get_engine, use_mysql_engine
 
 Base = declarative_base()
 
 class User(Base):
     """User model"""
     __tablename__ = 'users'
+    __table_args__ = {'mysql_engine': use_mysql_engine}
     id = Column(Integer, primary_key=True)  # User ID, primary key
     username = Column(String(100), nullable=False, unique=True)  # Username, must be non-null and unique
     email = Column(String(100), nullable=False, unique=True)  # Email, must be non-null and unique
@@ -24,6 +25,7 @@ class User(Base):
 class Product(Base):
     """Product model"""
     __tablename__ = 'products'
+    __table_args__ = {'mysql_engine': use_mysql_engine}
     id = Column(Integer, primary_key=True)  # Product ID, primary key
     name = Column(String(255), nullable=False)  # Product name, must be non-null
     category_id = Column(Integer, ForeignKey('categories.id'))  # Foreign key to category
@@ -41,6 +43,7 @@ class Product(Base):
 class Category(Base):
     """Category model"""
     __tablename__ = 'categories'
+    __table_args__ = {'mysql_engine': use_mysql_engine}
     id = Column(Integer, primary_key=True)  # Category ID, primary key
     name = Column(String(100), nullable=False, unique=True)  # Category name, must be non-null and unique
     code = Column(String(50), nullable=False, unique=True)  # Category code, must be non-null and unique
@@ -52,6 +55,7 @@ class Category(Base):
 class Order(Base):
     """Order model"""
     __tablename__ = 'orders'
+    __table_args__ = {'mysql_engine': use_mysql_engine}
     id = Column(Integer, primary_key=True)  # Order ID, primary key
     user_id = Column(Integer, ForeignKey('users.id'))  # Foreign key to user who created the order
     order_date = Column(DateTime, default=func.now())  # Order creation date and time, defaults to now
@@ -65,6 +69,7 @@ class Order(Base):
 class OrderDetail(Base):
     """Order detail model"""
     __tablename__ = 'order_details'
+    __table_args__ = {'mysql_engine': use_mysql_engine}
     id = Column(Integer, primary_key=True)  # Order detail ID, primary key
     order_id = Column(Integer, ForeignKey('orders.id'))  # Foreign key to the order
     product_id = Column(Integer, ForeignKey('products.id'))  # Foreign key to the product
@@ -79,6 +84,7 @@ class OrderDetail(Base):
 class Event(Base):
     """Event model"""
     __tablename__ = 'events'
+    __table_args__ = {'mysql_engine': use_mysql_engine}
     id = Column(Integer, primary_key=True)  # Event ID, primary key
     user_id = Column(Integer, ForeignKey('users.id'))  # Foreign key to the user related to the event
     product_id = Column(Integer, ForeignKey('products.id'))  # Foreign key to the product related to the event
@@ -92,6 +98,7 @@ class Event(Base):
 class Cart(Base):
     """Cart model"""
     __tablename__ = 'carts'
+    __table_args__ = {'mysql_engine': use_mysql_engine}
     id = Column(Integer, primary_key=True)  # Cart ID, primary key
     user_id = Column(Integer, ForeignKey('users.id'), unique=True)  # Foreign key to the user, unique
 
@@ -102,6 +109,7 @@ class Cart(Base):
 class CartItem(Base):
     """Cart item model"""
     __tablename__ = 'cart_items'
+    __table_args__ = {'mysql_engine': use_mysql_engine}
     id = Column(Integer, primary_key=True)  # Cart item ID, primary key
     cart_id = Column(Integer, ForeignKey('carts.id'))  # Foreign key to the cart
     product_id = Column(Integer, ForeignKey('products.id'))  # Foreign key to the product
